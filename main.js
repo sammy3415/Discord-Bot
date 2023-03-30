@@ -1,7 +1,10 @@
 const { 
-    Client, ApplicationCommandType, ApplicationCommandOptionType, GatewayIntentBits,
-    Partials
+    Client, ApplicationCommandType, ApplicationCommandOptionType, 
+    GatewayIntentBits, Partials
  } = require('discord.js');
+
+ require("dotenv").config()
+const TOKEN = 'MTA5MDcwMjQyODc5MTM5NDMzNA.GaVYQP.zlOFZZSSdJ40a1-gXcif3oWbDLZHplfbX8DDYs'
 
 const client = new Client({ 
     intents: [
@@ -45,4 +48,4 @@ client.on('messageCreate', (message) => {
 })
 
 // Keep as last line & ********REMOVE BEFORE PUSHING*******
-client.login('MTA5MDcwMjQyODc5MTM5NDMzNA.GRzJRt.b9aQUnhve5GiiDOWXR77rGvil0rz2ETjUpwiiM');
+client.login(TOKEN);
