@@ -4,7 +4,6 @@ const {
  } = require('discord.js');
 
  require("dotenv").config()
-const TOKEN = 'MTA5MDcwMjQyODc5MTM5NDMzNA.GaVYQP.zlOFZZSSdJ40a1-gXcif3oWbDLZHplfbX8DDYs'
 
 const client = new Client({ 
     intents: [
@@ -47,5 +46,4 @@ client.on('messageCreate', (message) => {
     }
 })
 
-// Keep as last line & ********REMOVE BEFORE PUSHING*******
-client.login(TOKEN);
+client.login(process.env.TOKEN);
