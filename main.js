@@ -1,49 +1,66 @@
-const { 
-    Client, ApplicationCommandType, ApplicationCommandOptionType, 
-    GatewayIntentBits, Partials
- } = require('discord.js');
 
- require("dotenv").config()
+const { Client, GatewayIntentBits } = require('discord.js');
+const Discord = require('discord.js');
+require("dotenv").config()
 
 const client = new Client({ 
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildPresences,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.MessageContent
-      ],
-      partials: [
-        Partials.Channel,
-        Partials.Message,
-        Partials.User,
-        Partials.GuildMember,
-        Partials.Reaction
+        GatewayIntentBits.GuildMembers
       ]    
 });
 
-const prefix = '.';
+
+let bot = {
+    client,
+    prefix: ".",
+    owners: ["605603257871499276"]
+}
+
+client.commands = new Discord.Collection()
+client.events = new Discord.Collection()
+
+client.loadEvents = (bot, reload) => require("./src/handlers/commands")(bot, reload)
+client.loadEvents(bot, false)
+
+client.loadCommands = (bot, reload) => require("./src/handlers/commands")(bot, reload)
+client.loadCommands(bot, false)
+
+module.exports = bot
 
 client.once('ready', () => {
     console.log('Bot is online!');
 })
 
+
 client.on('messageCreate', (message) => {
-    console.log(message.content);
-
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
-
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
-
-    const messageArray = message.content.split(" ");
-    const argument = messageArray.slice(1);
-    const cmd = messageArray[0];
-
-    if(command === 'ping'){
-        message.channel.send('pong!');
-    }
+    triggerEventHandler(bot, "messageCreate", message)
 })
 
-client.login(process.env.TOKEN);
+// const { 
+//     Client, ApplicationCommandType, ApplicationCommandOptionType, 
+//     GatewayIntentBits, Partials
+//  } = require('discord.js');
+
+//  require("dotenv").config()
+
+// const client = new Client({ 
+//     intents: [
+//         GatewayIntentBits.Guilds,
+//         GatewayIntentBits.GuildMessages,
+//         GatewayIntentBits.GuildPresences,
+//         GatewayIntentBits.GuildMessageReactions,
+//         GatewayIntentBits.DirectMessages,
+//         GatewayIntentBits.MessageContent
+//       ],
+//       partials: [
+//         Partials.Channel,
+//         Partials.Message,
+//         Partials.User,
+//         Partials.GuildMember,
+//         Partials.Reaction
+//       ]    
+// });
+
+client.login(process.env.TOKEN)
